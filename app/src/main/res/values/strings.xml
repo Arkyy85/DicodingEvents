@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MyBottomNavigation</string>
+    <string name="title_home">Home</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="title_dashboard">Upcoming Events</string>
+    <string name="title_notifications">Finished Events</string>
+    <string name="btn_details_link">Open Event Link</string>
+    <string name="menu_search">Search</string>
+    <string name="home_upcoming_event">Upcoming Event</string>
+    <string name="home_finished_event">Finished Event</string>
+    <string name="details_event_photo">Foto Acara</string>
+    <string name="search_hint">Search for events</string>
+    <string name="menu_change_mode">Change Mode</string>
+    <string name="bottom_favorite_events">Favorite Events</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detail_add_to_favorite">Add to Favorite</string>
+    <string name="detail_delete_favorite">Delete From Favorite</string>
+    <string name="added_to_favorite">Event Added to Favorite</string>
+    <string name="removed_from_favorite">Event Removed From Favorite</string>
+    <string name="error_message">Error</string>
+    <string name="something_wrong">Oops Something Went Wrong</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="list_item_favorite">Favorite</string>
+    <string name="no_upcoming_events">Tidak ada event yang akan datang</string>
+    <string name="image_error">image_error</string>
+</resources>
