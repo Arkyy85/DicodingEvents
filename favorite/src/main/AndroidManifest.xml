@@ -11,8 +11,7 @@
         <dist:fusing dist:include="true" />
     </dist:module>
 
-    <application
-        android:name="com.ammar.mybottomnavigation.MyApplication">
+    <application>
         <activity
             android:name=".favorite.FavoriteActivity"
             android:exported="true">
