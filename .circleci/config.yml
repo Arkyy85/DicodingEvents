@@ -1,0 +1,32 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@3.1.0
+
+jobs:
+  build:
+    executor:
+      name: android/android-machine
+      tag: 2025.02
+    steps:
+      - checkout
+      - run:
+          name: Unduh Dependensi
+          command: ./gradlew androidDependencies
+      - run:
+          name: Bangun APK Debug
+          command: ./gradlew assembleDebug
+      - run:
+          name: Jalankan Unit Test
+          command: ./gradlew test
+      - store_artifacts:
+          path: app/build/outputs/apk/debug/
+          destination: apk-debug
+      - store_test_results:
+          path: app/build/test-results
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
