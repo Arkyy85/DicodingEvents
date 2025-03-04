@@ -37,6 +37,6 @@ jobs:
           destination: artifact-file
 
 workflows:
-  test:
+  build:
     jobs:
-      - test
+      - build
