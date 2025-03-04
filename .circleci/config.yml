@@ -39,4 +39,4 @@ jobs:
 workflows:
  build:
   jobs:
-   -test
+   -build
