@@ -6,8 +6,6 @@ orbs:
 jobs:
   build:
     executor: android/android_machine
-    resource_class: large
-    tag: default
     steps:
       - checkout
       - restore_cache:
@@ -37,3 +35,8 @@ jobs:
       - store_artifacts:  
           path: app/build/outputs/apk/debug/
           destination: artifact-file
+
+workflows:
+ build:
+  jobs:
+   -test
