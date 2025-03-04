@@ -6,7 +6,6 @@ orbs:
 jobs:
   build:
     executor: android/android_machine
-    tag: default
     steps:
       - checkout
       - restore_cache:
