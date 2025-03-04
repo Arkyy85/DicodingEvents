@@ -1,11 +1,11 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@3.1.0  # Gunakan versi terbaru dari Android Orb
+  android: circleci/android@3.1.0 
 
 jobs:
   build:
-    executor: android/android  # Gunakan executor android/android yang benar
+    executor: android/android
     steps:
       - checkout
       - run:
