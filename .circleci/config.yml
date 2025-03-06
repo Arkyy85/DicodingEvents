@@ -43,5 +43,3 @@ workflows:
     jobs:
       - build
 
-
-apakah kode continous integration tersebut menerapkan code coverage, code style, dan vulnerability.
