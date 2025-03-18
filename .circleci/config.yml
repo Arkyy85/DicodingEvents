@@ -23,6 +23,7 @@ jobs:
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
+            - ~/.gradle/caches
       - run:
           name: Run Build
           command: ./gradlew build
