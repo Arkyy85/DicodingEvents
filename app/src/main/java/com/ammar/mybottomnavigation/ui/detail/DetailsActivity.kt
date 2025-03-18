@@ -4,6 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat.getParcelableExtra
@@ -14,127 +17,102 @@ import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityDetailsBinding
+    private var _binding: ActivityDetailsBinding? = null
+    private val binding get() = _binding!!
     private val detailsViewModel: DetailsViewModel by viewModel()
+    private var isFavorite: Boolean = false
+    private lateinit var menuItemFavorite: MenuItem
+    private var currentEvent: Events? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = "Detail Events"
-        enableEdgeToEdge()
-        binding = ActivityDetailsBinding.inflate(layoutInflater)
+
+        _binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.search_hint)
+
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         val event = getParcelableExtra(intent, EXTRA_EVENT, Events::class.java)
         showDetailTourism(event)
     }
 
     private fun showDetailTourism(detailEvents: Events?) {
-        detailEvents?.let {
-            Glide.with(this)
-                .load(detailEvents.mediaCover)
-                .into(binding.mediaCover)
-            binding.eventName.text = detailEvents.name
-            binding.ownerName.text = detailEvents.ownerName
-            "Waktu Pelaksanaan : ${detailEvents.beginTime}".also { binding.eventTime.text = it }
-            "Sisa Quota : ${detailEvents.registrants?.let { detailEvents.quota?.minus(it) }}".also { binding.eventQuota.text = it }
-            binding.eventDescription.text = Html.fromHtml(detailEvents.description, Html.FROM_HTML_MODE_COMPACT)
+        detailEvents?.let { event ->
+            binding.apply {
+                currentEvent = event
+                isFavorite = event.isFav
 
-            var statusFavorite = detailEvents.isFav
-            val eventType = detailEvents.eventType
-            setStatusFavorite(statusFavorite)
-            binding.btnFav.setOnClickListener {
-                detailsViewModel.setFavoriteTourism(detailEvents, !statusFavorite, eventType)
-                statusFavorite = !statusFavorite
-                setStatusFavorite(statusFavorite)
+                Glide.with(this@DetailsActivity)
+                    .load(event.mediaCover)
+                    .into(mediaCover)
+                eventName.text = event.name
+                ownerName.text = event.ownerName
+                supportActionBar?.title = event.ownerName
+                "Waktu Pelaksanaan : ${detailEvents.beginTime}".also { eventTime.text = it }
+                "Sisa Quota : ${detailEvents.registrants?.let { detailEvents.quota?.minus(it) }}".also { eventQuota.text = it }
+                eventDescription.text = Html.fromHtml(event.description, Html.FROM_HTML_MODE_COMPACT)
+                btnOpenLink.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.link))
+                    startActivity(intent)
+                }
             }
-            binding.btnOpenLink.setOnClickListener{
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(detailEvents.link))
-            startActivity(intent)
-        }
         }
     }
 
-    private fun setStatusFavorite(statusFavorite: Boolean) {
-        if (statusFavorite) {
-            binding.btnFav.text = getString(R.string.detail_delete_favorite)
-        } else {
-            binding.btnFav.text = getString(R.string.detail_add_to_favorite)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_details_act, menu)
+        menuItemFavorite = menu?.findItem(R.id.action_details_fav)!!
+        updateFavoriteIcon()
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_details_fav -> {
+                toggleFavorite()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun toggleFavorite() {
+        currentEvent?.let { event ->
+            val eventType = event.eventType
+            detailsViewModel.setFavoriteTourism(event, !isFavorite, eventType)
+            isFavorite = !isFavorite // Update status favorit
+            updateFavoriteIcon()
 
-//    private fun showLoading(isLoading: Boolean) {
-//        if (isLoading) {
-//            binding.progressBar.visibility = View.VISIBLE
-//        } else {
-//            binding.progressBar.visibility = View.GONE
-//        }
-//    }
+            val message = if (isFavorite) {
+                getString(R.string.toast_added_to_favorite)
+            } else {
+                getString(R.string.toast_removed_from_favorite)
+            }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
-//    private fun showToast(context: Context, message: String) {
-//        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-//    }
+    private fun updateFavoriteIcon() {
+        if (::menuItemFavorite.isInitialized) {
+            menuItemFavorite.setIcon(
+                if (isFavorite) R.drawable.action_bar_favorite_selected_selector  else  R.drawable.action_bar_favorite_selector
+            )
+        }
+    }
 
-//    private fun getViewModel(activity: AppCompatActivity): DetailsViewModel {
-//        val factory = ViewModelFactory2.getInstanceViewModel(activity.application)
-//        return ViewModelProvider(activity, factory)[DetailsViewModel::class.java]
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
     companion object {
         const val EXTRA_EVENT = "EXTRA_EVENT"
     }
 }
-
-//        Glide.with(this)
-//            .load(event?.mediaCover)
-//            .into(binding.mediaCover)
-//        binding.eventName.text = event?.name
-//        binding.ownerName.text = event?.ownerName
-//        "Waktu Pelaksanaan : ${event?.beginTime}".also { binding.eventTime.text = it }
-//        if (event != null) {
-//            "Sisa Quota : ${event.registrants?.let { event.quota?.minus(it) }}".also { binding.eventQuota.text = it }
-//        }
-//        binding.eventDescription.text = Html.fromHtml(event?.description, Html.FROM_HTML_MODE_COMPACT)
-//        binding.btnOpenLink.setOnClickListener{
-//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event?.link))
-//            startActivity(intent)
-//        }
-//        showLoading(false)
-//
-//        detailsViewModel.apply {
-//            getFavUser(event?.name.toString()).observe(this@DetailsActivity) { favUserEntity ->
-//                if (favUserEntity != null) {
-//                    binding.btnFav.text = getString(R.string.detail_delete_favorite)
-//                    binding.btnFav.setOnClickListener{
-//                        detailsViewModel.deleteFavUser(favUserEntity)
-//                        showToast(
-//                            this@DetailsActivity,
-//                            getString(R.string.removed_from_favorite)
-//                        )
-//                        binding.btnFav.text = getString(R.string.detail_add_to_favorite)
-//                    }
-//                } else {
-//                    binding.btnFav.setOnClickListener{
-//                        binding.btnFav.text = getString(R.string.detail_add_to_favorite)
-//                        val favUser = EventsEntity(
-//                            id = event?.id,
-//                            name = event?.name,
-//                            mediaCover = event?.mediaCover,
-//                            beginTime = event?.beginTime,
-//                            category = event?.category,
-//                            cityName = event?.cityName,
-//                            description = event?.description,
-//                            endTime = event?.endTime,
-//                            imageLogo = event?.imageLogo,
-//                            link = event?.link,
-//                            ownerName = event?.ownerName,
-//                            quota = event?.quota,
-//                            registrants = event?.registrants,
-//                            summary = event?.summary
-//                        )
-//                        detailsViewModel.addFavUser(favUser)
-//                        showToast(this@DetailsActivity, getString(R.string.added_to_favorite))
-//                    }
-//                }
-//            }
-//        }

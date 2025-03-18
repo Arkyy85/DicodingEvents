@@ -21,11 +21,11 @@
         android:id="@+id/navigation_notifications"
         android:name="com.ammar.mybottomnavigation.ui.finished.FinishedFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_finish_upc" />
 
     <fragment
-        android:id="@+id/navigation_favorite"
+        android:id="@+id/navigation_search"
         android:name="com.ammar.mybottomnavigation.ui.search.SearchFragment"
         android:label="@string/menu_search"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_search" />
 </navigation>

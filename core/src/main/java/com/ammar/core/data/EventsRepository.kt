@@ -6,7 +6,6 @@ import com.ammar.core.data.source.remote.response.ListEventsItem
 import com.ammar.core.data.source.remote.retrofit.ApiResponse
 import com.ammar.core.domain.model.Events
 import com.ammar.core.domain.repository.IEventsRepository
-import com.ammar.core.utils.AppExecutors
 import com.ammar.core.utils.DataMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
 
 class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                        private val localDataSource: LocalDataSource,
-                       private val appExecutors: AppExecutors,
 
 ):IEventsRepository {
 
@@ -28,8 +26,7 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                 }
             }
 
-            override fun shouldFetch(data: List<Events>?): Boolean =
-                data.isNullOrEmpty() // Fetch dari API hanya jika database kosong
+            override fun shouldFetch(data: List<Events>?): Boolean = data.isNullOrEmpty()
 
             override suspend fun createCall(): Flow<ApiResponse<List<ListEventsItem>>> =
                 remoteDataSource.getActiveEvents()
@@ -48,8 +45,8 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                 }
             }
 
-            override fun shouldFetch(data: List<Events>?): Boolean =
-                data.isNullOrEmpty()
+            override fun shouldFetch(data: List<Events>?): Boolean = data.isNullOrEmpty()
+
 
             override suspend fun createCall(): Flow<ApiResponse<List<ListEventsItem>>> =
                 remoteDataSource.getFinishedEvents()

@@ -11,14 +11,14 @@ android {
 
     defaultConfig {
         minSdk = 24
-
+        buildConfigField("String", "BASE_URL", "\"https://event-api.dicoding.dev/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -34,7 +34,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
@@ -61,4 +63,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     api(libs.koin.android)
     api(libs.recyclerview)
+
+    implementation(libs.android.database.sqlcipher)
+    implementation(libs.androidx.sqlite.ktx)
 }

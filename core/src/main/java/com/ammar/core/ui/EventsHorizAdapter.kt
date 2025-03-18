@@ -1,5 +1,6 @@
 package com.ammar.core.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -8,11 +9,17 @@ import androidx.recyclerview.widget.DiffUtil
 import com.ammar.core.databinding.ItemHorizEventBinding
 import com.ammar.core.domain.model.Events
 import com.bumptech.glide.Glide
+import java.lang.ref.WeakReference
 
 class EventsHorizAdapter : ListAdapter<Events, EventsHorizAdapter.EventsHorizViewHolder>(
     DIFF_CALLBACK
 ) {
     var onItemClick: ((Events) -> Unit)? = null
+    private var weakContext: WeakReference<Context>? = null
+
+    fun setContext(context: Context) {
+        weakContext = WeakReference(context)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         EventsHorizViewHolder(
@@ -38,9 +45,14 @@ class EventsHorizAdapter : ListAdapter<Events, EventsHorizAdapter.EventsHorizVie
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Events) {
             binding.tvEventName.text = event.name
-            Glide.with(itemView.context)
-                .load(event.imageLogo)
-                .into(binding.imgEventPhoto)
+            weakContext?.get().let {
+                context ->
+                if (context != null) {
+                    Glide.with(context)
+                        .load(event.imageLogo)
+                        .into(binding.imgEventPhoto)
+                }
+            }
         }
 
         init {

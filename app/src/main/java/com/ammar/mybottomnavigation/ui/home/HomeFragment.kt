@@ -33,8 +33,8 @@ class HomeFragment : Fragment() {
 
         if (activity != null) {
 
-            upcomingAdapter = EventsHorizAdapter()
-            finishedAdapter = EventsHorizAdapter()
+            upcomingAdapter = EventsHorizAdapter().apply { setContext(requireContext()) }
+            finishedAdapter = EventsHorizAdapter().apply { setContext(requireContext()) }
 
             upcomingAdapter.onItemClick = { selectedEvent ->
                 val intent = Intent(activity, DetailsActivity::class.java).apply {
@@ -65,8 +65,7 @@ class HomeFragment : Fragment() {
                         }
                     }
                     is Resource.Error -> {
-                        binding.tvNoUpcoming.visibility = View.VISIBLE
-                        binding.tvNoUpcoming.text = "Error mengambil data"
+                        showError()
                         showLoading(false)
                     }
                 }
@@ -81,7 +80,7 @@ class HomeFragment : Fragment() {
                     }
                     is Resource.Error -> {
                         showLoading(false)
-                        showError(resource.message)
+                        showError()
                     }
                 }
             }
@@ -102,19 +101,18 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.rvUpcoming.adapter = null
+        binding.rvFinished.adapter = null
         _binding = null
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
-    }
+    private fun showLoading(state: Boolean) { binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE }
 
-    private fun showError(message: String?) {
-        binding.viewError.visibility = View.VISIBLE
-        binding.tvError.text = message ?: getString(R.string.something_wrong)
+    private fun showError() {
+        binding.tvFinished.visibility = View.GONE
+        binding.tvUpcoming.visibility = View.GONE
+        binding.tvErrorCompound.visibility = View.VISIBLE
+        binding.tvErrorCompound.text = getString(R.string.something_wrong)
+        binding.emptyAnimation.visibility = View.VISIBLE
     }
 }

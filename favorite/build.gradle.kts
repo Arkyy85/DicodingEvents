@@ -30,6 +30,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -38,6 +39,7 @@ dependencies {
     implementation(project(":app"))
     implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.lottie)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
