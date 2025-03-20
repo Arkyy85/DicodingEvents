@@ -50,5 +50,4 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     debugImplementation(libs.leakcanary)
-    releaseImplementation(libs.leakcanary.android.no.op)
 }

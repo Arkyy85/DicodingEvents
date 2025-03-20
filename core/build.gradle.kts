@@ -58,7 +58,6 @@ dependencies {
     implementation(libs.glide)
     implementation (libs.androidx.room.ktx)
     debugImplementation(libs.leakcanary)
-    releaseImplementation(libs.leakcanary.android.no.op)
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
