@@ -11,15 +11,18 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: android-orb-v1-
+          key: android-orb-v1-{{ checksum "build.gradle" }}
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
+          name: Clean and Refresh Dependencies
+          command: ./gradlew clean --refresh-dependencies
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
+          key: 'android-orb-v1-{{ checksum "build.gradle" }}'
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
