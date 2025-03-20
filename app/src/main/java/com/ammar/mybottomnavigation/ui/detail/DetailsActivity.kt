@@ -7,7 +7,6 @@ import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat.getParcelableExtra
 import com.ammar.mybottomnavigation.R

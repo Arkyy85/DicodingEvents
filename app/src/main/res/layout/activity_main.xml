@@ -15,7 +15,8 @@
         app:titleTextColor="@color/toolbar_color_selector"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:navigationIcon="@drawable/item_back"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        app:layout_scrollFlags="scroll|enterAlways"
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

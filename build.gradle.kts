@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     //noinspection GradleDependency
     id("com.google.devtools.ksp") version "2.0.21-1.0.26" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.0" apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.dynamic.feature) apply false
 }

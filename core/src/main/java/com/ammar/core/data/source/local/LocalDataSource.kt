@@ -23,4 +23,8 @@ class LocalDataSource(private val eventsDao: EventsDao, private val preferences:
         events.isFav = newState
         eventsDao.updateFavoriteEvents(events)
     }
+
+    suspend fun saveLastFetchTime(time: Long) = preferences.saveLastFetchTime(time)
+
+    fun getLastFetchTime(): Flow<Long> = preferences.getLastFetchTime()
 }

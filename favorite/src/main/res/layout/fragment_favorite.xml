@@ -15,7 +15,8 @@
         android:elevation="4dp"
         app:titleTextColor="@color/toolbar_color_selector"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        app:navigationIcon="@drawable/item_back" />
+        app:navigationIcon="@drawable/item_back"
+        tools:ignore="MissingConstraints" />
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -13,6 +13,19 @@
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
+-keep class com.ammar.core.data.source.remote.response.** { *; }
+-keep class com.google.gson.** { *; }
+-keep class com.google.gson.internal.bind.**
+-keep class com.google.gson.reflect.TypeToken
+-keepattributes *Annotation*
+-keepclassmembers,allowobfuscation class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+-keepclassmembers class * {
+    @com.google.gson.annotations.Expose <fields>;
+}
+
+
 -keepclassmembers,allowobfuscation class * {
 @com.google.gson.annotations.SerializedName <fields>;
 }
@@ -49,4 +62,20 @@ public *;
 }
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
 *** rewind();
+}
+
+-keep class kotlin.LazyKt { *; }
+-keep class kotlin.LazyKt__LazyJVMKt { *; }
+-keep class kotlin.LazyKt__LazyKt { *; }
+-keep class kotlin.jvm.functions.** { *; }
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class kotlin.Metadata { *; }
+
+-keep class androidx.viewbinding.** { *; }
+-keep class androidx.databinding.** { *; }
+-keep class android.databinding.** { *; }
+
+# Mencegah penghapusan class terkait Binding
+-keepclassmembers class * {
+    @androidx.databinding.* <fields>;
 }

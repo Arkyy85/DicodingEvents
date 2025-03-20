@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    id("org.jlleitschuh.gradle.ktlint")
     alias(libs.plugins.ksp)
 }
 
@@ -27,6 +28,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -71,4 +76,7 @@ dependencies {
     releaseImplementation(libs.leakcanary.android.no.op)
 
     implementation(libs.lottie)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.mockito.inline)
+    testImplementation(libs.bundles.test.implementation)
 }

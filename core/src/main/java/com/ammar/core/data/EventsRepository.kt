@@ -10,8 +10,10 @@ import com.ammar.core.utils.DataMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                        private val localDataSource: LocalDataSource,
@@ -26,7 +28,15 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                 }
             }
 
-            override fun shouldFetch(data: List<Events>?): Boolean = data.isNullOrEmpty()
+            override fun shouldFetch(data: List<Events>?): Boolean {
+                val lastFetchTime = runBlocking { localDataSource.getLastFetchTime().first() }
+                val currentTime = System.currentTimeMillis()
+                val timeElapsed = currentTime - lastFetchTime
+
+                val isDataStale = timeElapsed > 24 * 60 * 60 * 1000
+
+                return data.isNullOrEmpty() || isDataStale
+            }
 
             override suspend fun createCall(): Flow<ApiResponse<List<ListEventsItem>>> =
                 remoteDataSource.getActiveEvents()
@@ -34,6 +44,7 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
             override suspend fun saveCallResult(data: List<ListEventsItem>) {
                 val eventEntities = DataMapper.mapResponsesToEntities(data, "upcoming")
                 localDataSource.insertEvents(eventEntities)
+                localDataSource.saveLastFetchTime(System.currentTimeMillis())
             }
         }.asFlow()
 
@@ -45,8 +56,15 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
                 }
             }
 
-            override fun shouldFetch(data: List<Events>?): Boolean = data.isNullOrEmpty()
+            override fun shouldFetch(data: List<Events>?): Boolean {
+                val lastFetchTime = runBlocking { localDataSource.getLastFetchTime().first() }
+                val currentTime = System.currentTimeMillis()
+                val timeElapsed = currentTime - lastFetchTime
 
+                val isDataStale = timeElapsed > 24 * 60 * 60 * 1000
+
+                return data.isNullOrEmpty() || isDataStale
+            }
 
             override suspend fun createCall(): Flow<ApiResponse<List<ListEventsItem>>> =
                 remoteDataSource.getFinishedEvents()
@@ -54,6 +72,7 @@ class EventsRepository(private val remoteDataSource: RemoteDataSource ,
             override suspend fun saveCallResult(data: List<ListEventsItem>) {
                 val eventEntities = DataMapper.mapResponsesToEntities(data, "past")
                 localDataSource.insertEvents(eventEntities)
+                localDataSource.saveLastFetchTime(System.currentTimeMillis())
             }
         }.asFlow()
 

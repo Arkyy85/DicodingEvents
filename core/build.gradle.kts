@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    id("org.jlleitschuh.gradle.ktlint")
     alias(libs.plugins.ksp)
 }
 
@@ -68,4 +69,8 @@ dependencies {
 
     implementation(libs.android.database.sqlcipher)
     implementation(libs.androidx.sqlite.ktx)
+
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.mockito.inline)
+    testImplementation(libs.bundles.test.implementation)
 }
