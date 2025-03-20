@@ -15,14 +15,24 @@ recyclerview = "1.4.0"
 constraintlayout = "2.2.1"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
-navigationFragmentKtx = "2.8.8"
-navigationUiKtx = "2.8.8"
+navigationFragmentKtx = "2.8.9"
+navigationUiKtx = "2.8.9"
 retrofit = "2.11.0"
 activity = "1.10.1"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
 ksp = "2.0.21-1.0.26"
 koin = "3.5.6"
+androidDatabaseSqlcipher = "4.5.4"
+sqliteKtx = "2.4.0"
+leakcanary = "2.10"
+lottie = "6.4.1"
+mockitoCore = "4.4.0"
+mockitoInline = "4.4.0"
+junit-jupiter = "5.10.0"
+mockk = "1.13.8"
+core-testing = "2.2.0"
+kotlinx-coroutines-test = "1.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +60,18 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCom
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
+androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "sqliteKtx" }
+leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+leakcanary-android-no-op = { module = "com.squareup.leakcanary:leakcanary-android-no-op", version.ref = "leakcanary" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -58,3 +80,11 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 
+[bundles]
+test-implementation = [
+    "junit-jupiter-api",
+    "junit-jupiter-engine",
+    "mockk",
+    "core-testing",
+    "kotlinx-coroutines-test"
+]

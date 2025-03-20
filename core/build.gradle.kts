@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    id("org.jlleitschuh.gradle.ktlint")
     alias(libs.plugins.ksp)
 }
 
@@ -11,14 +12,14 @@ android {
 
     defaultConfig {
         minSdk = 24
-
+        buildConfigField("String", "BASE_URL", "\"https://event-api.dicoding.dev/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -34,7 +35,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
@@ -54,6 +57,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.glide)
     implementation (libs.androidx.room.ktx)
+    debugImplementation(libs.leakcanary)
+    releaseImplementation(libs.leakcanary.android.no.op)
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
@@ -61,4 +66,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     api(libs.koin.android)
     api(libs.recyclerview)
+
+    implementation(libs.android.database.sqlcipher)
+    implementation(libs.androidx.sqlite.ktx)
+
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.mockito.inline)
+    testImplementation(libs.bundles.test.implementation)
 }

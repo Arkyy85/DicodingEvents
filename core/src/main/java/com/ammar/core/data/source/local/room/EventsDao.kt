@@ -20,7 +20,6 @@ interface EventsDao {
     @Query("SELECT * FROM events WHERE name LIKE '%' || :query || '%' COLLATE NOCASE")
     fun getSearchEvents(query: String?): Flow<List<EventsEntity>>
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addEvents(events: List<EventsEntity>)
 

@@ -15,6 +15,8 @@ import com.ammar.core.data.source.remote.RemoteDataSource
 import com.ammar.core.data.source.remote.retrofit.ApiService
 import com.ammar.core.domain.repository.IEventsRepository
 import com.ammar.core.utils.AppExecutors
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -22,6 +24,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import com.ammar.core.BuildConfig
+import okhttp3.CertificatePinner
 
 val repositoryModule = module {
     single { LocalDataSource(get(), get()) }
@@ -31,22 +35,34 @@ val repositoryModule = module {
         EventsRepository(
             get(),
             get(),
-            get(),
         )
     }
 }
 
 val networkModule = module {
     single {
+        val hostname = "event-api.dicoding.dev"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname,"sha256/IP3deCdJNWm0Ae27av8Odv7gpd7Z1jL6dKVGnJDOpDM=")
+            .add(hostname,"sha256/Jfy7JYGSTPqS9mo2VZhc/2epZhPp3mGNSSJTN/JJjO8=")
+            .add(hostname,"sha256/K7rZOrXHknnsEhUH8nLL4MZkejquUuIvOIr6tCa0rbo=")
+            .add(hostname,"sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
+            .build()
+        val loggingInterceptor = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+        } else {
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.NONE }
+        }
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(loggingInterceptor)
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .build()
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://event-api.dicoding.dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -54,13 +70,18 @@ val networkModule = module {
     }
 }
 
+
+
 val databaseModule = module {
     factory { get<EventsDatabase>().eventsDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("dicoding".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             EventsDatabase::class.java, "EventsDb"
         ) .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .openHelperFactory(factory)
             .build()
     }
 }

@@ -42,7 +42,6 @@ class FinishedFragment : Fragment() {
                 startActivity(intent)
             }
 
-            // Observasi LiveData dari ViewModel
             finishedViewModel.finishedEvents.observe(viewLifecycleOwner) { resource ->
                 when (resource) {
                     is Resource.Loading -> showLoading(true)
@@ -52,7 +51,7 @@ class FinishedFragment : Fragment() {
                     }
                     is Resource.Error -> {
                         showLoading(false)
-                        showError(resource.message)
+                        showError()
                     }
                 }
             }
@@ -68,6 +67,7 @@ class FinishedFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.rvUpcoming.adapter = null
         _binding = null
     }
 
@@ -75,8 +75,9 @@ class FinishedFragment : Fragment() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun showError(message: String?) {
-        binding.viewError.visibility = View.VISIBLE
-        binding.tvError.text = message ?: getString(R.string.something_wrong)
+    private fun showError() {
+        binding.tvErrorCompound.visibility = View.VISIBLE
+        binding.tvErrorCompound.text = getString(R.string.something_wrong)
+        binding.emptyAnimation.visibility = View.VISIBLE
     }
 }

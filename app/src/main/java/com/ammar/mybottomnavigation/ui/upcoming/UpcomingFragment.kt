@@ -59,7 +59,7 @@ class UpcomingFragment : Fragment() {
                     }
                     is Resource.Error -> {
                         showLoading(false)
-                        showError(resource.message)
+                        showError()
                     }
                 }
             }
@@ -79,11 +79,13 @@ class UpcomingFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.rvUpcoming.adapter = null
         _binding = null
     }
 
-    private fun showError(message: String?) {
-        binding.viewError.visibility = View.VISIBLE
-        binding.tvError.text = message ?: getString(R.string.something_wrong)
+    private fun showError() {
+        binding.tvErrorCompound.visibility = View.VISIBLE
+        binding.tvErrorCompound.text = getString(R.string.something_wrong)
+        binding.emptyAnimation.visibility = View.VISIBLE
     }
 }

@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ammar.core.data.Resource
 import com.ammar.core.ui.EventsAdapter
 import com.ammar.mybottomnavigation.R
-import com.ammar.mybottomnavigation.databinding.ActivitySearchBinding
+import com.ammar.mybottomnavigation.databinding.FragmentSearchBinding
 import com.ammar.mybottomnavigation.ui.detail.DetailsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
-    private var _binding: ActivitySearchBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private val searchViewModel: SearchViewModel by viewModel()
@@ -28,7 +28,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivitySearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -58,62 +58,61 @@ class SearchFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     showLoading(false)
-                    showError(resource.message)
+                    showError()
                 }
             }
         }
 
-        binding.editTextSearch.addTextChangedListener(object : TextWatcher {
+        binding.searchTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchViewModel.searchEvents(s.toString()).observe(viewLifecycleOwner) { resource ->
-                    when (resource) {
-                        is Resource.Loading -> showLoading(true)
-                        is Resource.Success -> {
-                            showLoading(false)
-                            adapter.submitList(resource.data){
-                                binding.recyclerViewSearchResults.scrollToPosition(0)
-                            }
-                        }
-                        is Resource.Error -> {
-                            showLoading(false)
-                            showError(resource.message)
-                        }
-                    }
-                }
+                performSearch(s.toString())
             }
             override fun afterTextChanged(s: Editable?) {
-                searchViewModel.searchEvents(s.toString()).observe(viewLifecycleOwner) { resource ->
-                    when (resource) {
-                        is Resource.Loading -> showLoading(true)
-                        is Resource.Success -> {
-                            showLoading(false)
-                            adapter.submitList(resource.data) {
-                                binding.recyclerViewSearchResults.scrollToPosition(0)
-                            }
-                        }
-                        is Resource.Error -> {
-                            showLoading(false)
-                            showError(resource.message)
-                        }
-                    }
-                }
+                performSearch(s.toString())
             }
         })
 
+    }
+
+    private fun performSearch(query: String) {
+        searchViewModel.searchEvents(query).observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> showLoading(true)
+                is Resource.Success -> {
+                    showLoading(false)
+                    adapter.submitList(resource.data) {
+                        binding.recyclerViewSearchResults.scrollToPosition(0)
+                    }
+                    updateEmptyState(resource.data.isNullOrEmpty())
+                }
+                is Resource.Error -> {
+                    showLoading(false)
+                    showError()
+                }
+            }
+        }
+    }
+
+    private fun updateEmptyState(isEmpty: Boolean) {
+        binding.emptyAnimation.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.tvErrorCompound.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.recyclerViewSearchResults.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun showError(message: String?) {
-        binding.viewError.visibility = View.VISIBLE
-        binding.tvError.text = message ?: getString(R.string.something_wrong)
+    private fun showError() {
+        binding.tvErrorCompound.visibility = View.VISIBLE
+        binding.tvErrorCompound.text = getString(R.string.something_wrong)
+        binding.emptyAnimation.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerViewSearchResults.adapter = null
         _binding = null
     }
 }

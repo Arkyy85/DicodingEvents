@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    id("org.jlleitschuh.gradle.ktlint")
 }
 android {
     namespace = "com.ammar.favorite"
@@ -30,6 +31,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -38,6 +40,7 @@ dependencies {
     implementation(project(":app"))
     implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.lottie)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
