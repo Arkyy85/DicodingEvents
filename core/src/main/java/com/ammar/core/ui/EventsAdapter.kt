@@ -2,10 +2,9 @@ package com.ammar.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-
+import androidx.recyclerview.widget.RecyclerView
 import com.ammar.core.databinding.ItemEventBinding
 import com.ammar.core.domain.model.Events
 import com.bumptech.glide.Glide
@@ -37,7 +36,7 @@ class EventsAdapter : ListAdapter<Events, EventsAdapter.EventViewHolder>(
                 .into(binding.imgEventPhoto)
         }
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 onItemClick?.invoke(getItem(bindingAdapterPosition))
             }
         }

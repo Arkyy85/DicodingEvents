@@ -25,7 +25,8 @@ class SearchFragment : Fragment() {
     private lateinit var adapter: EventsAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -72,7 +73,6 @@ class SearchFragment : Fragment() {
                 performSearch(s.toString())
             }
         })
-
     }
 
     private fun performSearch(query: String) {

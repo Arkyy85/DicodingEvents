@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.glide)
-    implementation (libs.androidx.room.ktx)
+    implementation(libs.androidx.room.ktx)
     debugImplementation(libs.leakcanary)
     ksp(libs.room.compiler)
 

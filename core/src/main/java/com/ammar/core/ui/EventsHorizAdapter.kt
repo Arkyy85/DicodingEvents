@@ -3,9 +3,9 @@ package com.ammar.core.ui
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.DiffUtil
 import com.ammar.core.databinding.ItemHorizEventBinding
 import com.ammar.core.domain.model.Events
 import com.bumptech.glide.Glide
@@ -45,8 +45,7 @@ class EventsHorizAdapter : ListAdapter<Events, EventsHorizAdapter.EventsHorizVie
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Events) {
             binding.tvEventName.text = event.name
-            weakContext?.get().let {
-                context ->
+            weakContext?.get().let { context ->
                 if (context != null) {
                     Glide.with(context)
                         .load(event.imageLogo)

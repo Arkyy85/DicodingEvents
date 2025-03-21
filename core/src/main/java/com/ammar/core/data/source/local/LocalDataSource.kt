@@ -13,7 +13,7 @@ class LocalDataSource(private val eventsDao: EventsDao, private val preferences:
 
     fun getSearchEvents(query: String?): Flow<List<EventsEntity>> = eventsDao.getSearchEvents(query)
 
-    fun getThemeSetting() :Flow<Boolean> = preferences.getThemeSetting()
+    fun getThemeSetting(): Flow<Boolean> = preferences.getThemeSetting()
 
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) = preferences.saveThemeSetting(isDarkModeActive)
 
