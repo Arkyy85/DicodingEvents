@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("org.jlleitschuh.gradle.ktlint")
-    id ("jacoco")
+    id("jacoco")
     alias(libs.plugins.ksp)
 }
 
@@ -56,6 +56,9 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports"
 
+    dependsOn("testDebugUnitTest")
+    dependsOn("compileDebugJavaWithJavac")
+
     reports {
         xml.required.set(true)
         html.required.set(true)
@@ -70,17 +73,17 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "android/**/*.*"
     )
 
-    val debugTree = fileTree("${buildDir}/intermediates/javac/debug") {
-        exclude(fileFilter)
-    }
-    val mainSrc = "${project.projectDir}/src/main/java"
+    val debugTree = fileTree(layout.buildDirectory.dir("intermediates/javac/debug")).exclude(fileFilter)
+    val mainSrc = layout.projectDirectory.dir("src/main/java")
 
     sourceDirectories.setFrom(files(mainSrc))
     classDirectories.setFrom(files(debugTree))
-    executionData.setFrom(fileTree(buildDir).include(
-        "jacoco/testDebugUnitTest.exec",
-        "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
-    ))
+    executionData.setFrom(
+        fileTree(layout.buildDirectory).include(
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+        )
+    )
 }
 
 dependencies {
