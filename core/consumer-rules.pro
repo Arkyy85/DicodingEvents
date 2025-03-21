@@ -79,3 +79,9 @@ public *;
 -keepclassmembers class * {
     @androidx.databinding.* <fields>;
 }
+
+-keepclassmembers class com.ammar.core.data.source.local.entity.EventsEntity {
+    public java.lang.String toString();
+}
+
+-keep class java.lang.invoke.** { *; }
