@@ -15,11 +15,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class EventsRepository(private val remoteDataSource: RemoteDataSource ,
-                       private val localDataSource: LocalDataSource,
-
-):IEventsRepository {
-
+class EventsRepository(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
+) : IEventsRepository {
     override fun getUpcomingEvents(): Flow<Resource<List<Events>>> =
         object : NetworkBoundResource<List<Events>, List<ListEventsItem>>() {
             override fun loadFromDB(): Flow<List<Events>> {

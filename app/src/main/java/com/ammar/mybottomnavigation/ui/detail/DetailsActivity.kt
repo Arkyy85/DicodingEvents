@@ -9,8 +9,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat.getParcelableExtra
-import com.ammar.mybottomnavigation.R
 import com.ammar.core.domain.model.Events
+import com.ammar.mybottomnavigation.R
 import com.ammar.mybottomnavigation.databinding.ActivityDetailsBinding
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -101,7 +101,7 @@ class DetailsActivity : AppCompatActivity() {
     private fun updateFavoriteIcon() {
         if (::menuItemFavorite.isInitialized) {
             menuItemFavorite.setIcon(
-                if (isFavorite) R.drawable.action_bar_favorite_selected_selector  else  R.drawable.action_bar_favorite_selector
+                if (isFavorite) R.drawable.action_bar_favorite_selected_selector else R.drawable.action_bar_favorite_selector
             )
         }
     }

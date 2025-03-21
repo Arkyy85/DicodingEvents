@@ -3,7 +3,7 @@ package com.ammar.core.domain.usecase
 import com.ammar.core.domain.model.Events
 import com.ammar.core.domain.repository.IEventsRepository
 
-class EventsInteractor(private val iEventsRepository: IEventsRepository): EventsUseCase {
+class EventsInteractor(private val iEventsRepository: IEventsRepository) : EventsUseCase {
 
     override fun getSearchEvents(query: String?) = iEventsRepository.getSearchEvents(query)
 
@@ -15,7 +15,7 @@ class EventsInteractor(private val iEventsRepository: IEventsRepository): Events
 
     override fun setFavoriteEvents(event: Events, state: Boolean, eventType: String) = iEventsRepository.setFavoriteEvents(event, state, eventType)
 
-    override fun getThemeSetting() =iEventsRepository.getThemeSetting()
+    override fun getThemeSetting() = iEventsRepository.getThemeSetting()
 
     override suspend fun saveThemeSetting(isDarkModeActive: Boolean) = iEventsRepository.saveThemeSetting(isDarkModeActive)
 }

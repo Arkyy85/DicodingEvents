@@ -13,7 +13,7 @@ interface EventsUseCase {
 
     fun getFavoriteEvents(): Flow<List<Events>>
 
-    fun setFavoriteEvents(event: Events, state: Boolean, eventType:String)
+    fun setFavoriteEvents(event: Events, state: Boolean, eventType: String)
 
     fun getThemeSetting(): Flow<Boolean>
 

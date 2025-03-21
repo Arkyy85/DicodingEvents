@@ -73,7 +73,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.leakcanary)
-    releaseImplementation(libs.leakcanary.android.no.op)
 
     implementation(libs.lottie)
     testImplementation(libs.mockito.core)

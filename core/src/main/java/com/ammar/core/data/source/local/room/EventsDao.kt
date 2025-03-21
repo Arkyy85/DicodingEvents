@@ -26,8 +26,6 @@ interface EventsDao {
     @Update
     suspend fun updateFavoriteEvents(events: EventsEntity)
 
-    //Diff
     @Delete
     fun deleteEventsFromDB(events: EventsEntity)
-
 }

@@ -73,5 +73,4 @@ class FavoriteActivity : AppCompatActivity() {
             }
         }
     }
-
 }

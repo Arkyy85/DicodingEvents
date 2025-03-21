@@ -1,7 +1,7 @@
 package com.ammar.core.data.source.remote
 
 import android.util.Log
-import com.ammar.core.data.source.remote.response.EventResponse
+import com.ammar.core.data.source.remote.response.EventsResponse
 import com.ammar.core.data.source.remote.response.ListEventsItem
 import com.ammar.core.data.source.remote.retrofit.ApiResponse
 import com.ammar.core.data.source.remote.retrofit.ApiService
@@ -24,7 +24,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         return fetchEvents { apiService.searchEvents(query = query) }
     }
 
-    private fun fetchEvents(apiCall: suspend () -> EventResponse): Flow<ApiResponse<List<ListEventsItem>>> {
+    private fun fetchEvents(apiCall: suspend () -> EventsResponse): Flow<ApiResponse<List<ListEventsItem>>> {
         return flow {
             try {
                 val response = apiCall()

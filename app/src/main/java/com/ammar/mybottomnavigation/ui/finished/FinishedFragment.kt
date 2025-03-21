@@ -23,7 +23,8 @@ class FinishedFragment : Fragment() {
     private val finishedViewModel: FinishedViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFinishUpcBinding.inflate(inflater, container, false)
