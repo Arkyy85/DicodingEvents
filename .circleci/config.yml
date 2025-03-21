@@ -11,30 +11,37 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: android-orb-v1-
+          key: android-orb-v1-{{ checksum "build.gradle" }}
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
+          name: Clean and Refresh Dependencies
+          command: ./gradlew clean --refresh-dependencies
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
+          key: 'android-orb-v1-{{ checksum "build.gradle" }}'
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
+            - ~/.gradle/caches
       - run:
-          name: Run Build
-          command: ./gradlew build
-      - store_artifacts: 
-          path: app/build/reports
-          destination: reports
+          name: Run Lint Check
+          command: ./gradlew lint ktlintCheck
       - run:
-          name: Run Tests
-          command: ./gradlew lint test
+          name: Run Security Check
+          command: ./gradlew dependencyCheckAnalyze
+      - run:
+          name: Run Unit Tests & Generate Coverage
+          command: ./gradlew test jacocoTestReport
       - store_test_results:
           path: app/build/test-results
-      - store_artifacts:  
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_artifacts:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
 
@@ -42,4 +49,3 @@ workflows:
   build:
     jobs:
       - build
-
