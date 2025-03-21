@@ -64,6 +64,9 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports"
 
+    dependsOn("testDebugUnitTest")
+    dependsOn("compileDebugJavaWithJavac")
+
     reports {
         xml.required.set(true)
         html.required.set(true)
