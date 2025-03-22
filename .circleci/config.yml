@@ -10,37 +10,51 @@ jobs:
       tag: default
     steps:
       - checkout
+      - run:
+          name: Hapus Cache Lama
+          command: rm -rf ~/.gradle/caches ~/.android/build-cache ~/.android/cache
+
       - restore_cache:
-          key: android-orb-v1-{{ checksum "build.gradle" }}
+          key: android-orb-v1-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
+
       - run:
           name: Clean and Refresh Dependencies
           command: ./gradlew clean --refresh-dependencies
+
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+
       - save_cache:
-          key: 'android-orb-v1-{{ checksum "build.gradle" }}'
+          key: android-orb-v1-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
             - ~/.gradle/caches
+
       - run:
           name: Run Lint Check
           command: ./gradlew lint ktlintCheck
+
       - run:
           name: Run Security Check
           command: ./gradlew dependencyCheckAnalyze
+
       - run:
           name: Run Unit Tests & Generate Coverage
           command: ./gradlew test jacocoTestReport
+
       - store_test_results:
           path: app/build/test-results
+
       - store_artifacts:
           path: app/build/reports
           destination: reports
+
       - store_artifacts:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
