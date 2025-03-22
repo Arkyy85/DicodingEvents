@@ -63,7 +63,6 @@ recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "r
 android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "sqliteKtx" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
-leakcanary-android-no-op = { module = "com.squareup.leakcanary:leakcanary-android-no-op", version.ref = "leakcanary" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }

@@ -85,3 +85,5 @@ public *;
 }
 
 -keep class java.lang.invoke.** { *; }
+
+-dontwarn java.lang.invoke.StringConcatFactory
