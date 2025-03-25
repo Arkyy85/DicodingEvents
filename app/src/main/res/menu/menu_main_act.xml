@@ -10,6 +10,6 @@
     <item
         android:id="@+id/fav_events"
         android:icon="@drawable/action_bar_favorite_selector"
-        android:title="@string/list_item_favorite"
+        android:title="@string/title_favorite"
         app:showAsAction="ifRoom" />
 </menu>

@@ -3,6 +3,7 @@ package com.ammar.favorite.favorite
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ammar.core.di.databaseModule
@@ -23,6 +24,7 @@ class FavoriteActivity : AppCompatActivity() {
         binding = FragmentFavoriteBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+        enableEdgeToEdge()
 
         loadKoinModules(mapsModule)
         loadKoinModules(databaseModule)

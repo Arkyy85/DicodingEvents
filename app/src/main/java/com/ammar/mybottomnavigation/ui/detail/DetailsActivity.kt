@@ -7,6 +7,7 @@ import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat.getParcelableExtra
 import com.ammar.core.domain.model.Events
@@ -30,6 +31,7 @@ class DetailsActivity : AppCompatActivity() {
         _binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        enableEdgeToEdge()
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.search_hint)
@@ -86,7 +88,7 @@ class DetailsActivity : AppCompatActivity() {
         currentEvent?.let { event ->
             val eventType = event.eventType
             detailsViewModel.setFavoriteTourism(event, !isFavorite, eventType)
-            isFavorite = !isFavorite // Update status favorit
+            isFavorite = !isFavorite
             updateFavoriteIcon()
 
             val message = if (isFavorite) {
