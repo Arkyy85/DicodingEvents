@@ -13,7 +13,6 @@
     <string name="error_message">Error</string>
     <string name="something_wrong">Oops Something Went Wrong</string>
     <string name="title_favorite">Favorite</string>
-    <string name="list_item_favorite">Favorite</string>
     <string name="no_upcoming_events">Tidak ada event yang akan datang</string>
     <string name="toast_added_to_favorite">Ditambahkan ke favorite</string>
     <string name="toast_removed_from_favorite">Dihapus dari favorite</string>

@@ -38,11 +38,6 @@
 -keep class com.ammar.core.ui.EventsAdapter { *; }
 -keep class com.ammar.core.ui.EventsHorizAdapter { *; }
 
-# Jangan optimasi class yang digunakan dalam Fragment atau Activity
--keep class com.ammar.mybottomnavigation.ui.detail.DetailsActivity { *; }
--keep class com.ammar.mybottomnavigation.ui.finished.FinishedFragment { *; }
--keep class com.ammar.favorite.favorite.FavoriteActivity { *; }
-
 # Jika menggunakan Koin, tambahkan ini agar tidak dihapus oleh R8
 -keep class org.koin.** { *; }
 -keep class * extends org.koin.core.module.Module { *; }
