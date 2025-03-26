@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/details_act"
     tools:context=".ui.detail.DetailsActivity">
 
     <!-- AppBarLayout dengan Toolbar -->
@@ -39,7 +40,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="30dp">
 
             <ImageView
                 android:id="@+id/mediaCover"

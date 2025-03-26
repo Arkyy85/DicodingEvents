@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat.getParcelableExtra
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.ammar.core.domain.model.Events
 import com.ammar.mybottomnavigation.R
 import com.ammar.mybottomnavigation.databinding.ActivityDetailsBinding
@@ -35,6 +37,12 @@ class DetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.search_hint)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.details_act)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
