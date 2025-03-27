@@ -13,9 +13,6 @@ jobs:
       - run:
           name: Hapus Cache Lama
           command: rm -rf ~/.gradle/caches ~/.android/build-cache ~/.android/cache
-          
-      - restore_cache:
-          key: android-orb-v1-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
       - run:
           name: Chmod permissions
@@ -28,13 +25,6 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-
-      - save_cache:
-          key: android-orb-v1-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-          paths:
-            - ~/.android/build-cache
-            - ~/.android/cache
-            - ~/.gradle/caches
 
       - run:
           name: Run Lint Check
